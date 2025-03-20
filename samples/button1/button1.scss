@@ -2,6 +2,11 @@ $darkbg: #1c1c1c;
 $btCinza: #222;
 $icons: #eeff00;
 $branco: #fff;
+$button-width: 320px;
+$button-height: 65px;
+$nav-padding: 10px;
+$icon-size: 20px;
+$animation-duration: 300ms;
 
 * {
   box-sizing: border-box;
@@ -16,10 +21,11 @@ body {
   align-items: center;
   height: 100vh;
 }
+
 .container {
   width: 20%;
   display: flex;
-  justify-content: left;
+  justify-content: flex-start;
   align-items: center;
   position: relative;
 }
@@ -31,46 +37,45 @@ body {
 .button {
   position: absolute;
   z-index: 999;
-  width: 320px;
-  height: 65px;
+  width: $button-width;
+  height: $button-height;
   background: $btCinza;
   border-radius: 15px;
   cursor: pointer;
   display: flex;
-  justify-content: left;
+  justify-content: flex-start;
   align-items: center;
   padding: 0 24px;
   overflow: hidden;
   transition: width 300ms linear;
 
-  &:before {
-    position: absolute;
-    content: "";
-    width: 20px;
-    height: 2px;
-    background: $icons;
-    transform: rotate(225deg);
-    transition: all 0.4s ease;
-  }
+  &:before,
   &:after {
     position: absolute;
     content: "";
-    width: 20px;
+    width: $icon-size;
     height: 2px;
     background: $icons;
-    transform: rotate(135deg);
     transition: all 0.4s ease;
+  }
+
+  &:before {
+    transform: rotate(225deg);
+  }
+
+  &:after {
+    transform: rotate(135deg);
   }
 }
 
 .nav {
   opacity: 1;
-  transition: all 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
   background: $btCinza;
   width: 100%;
   border-radius: 5px;
   transform: translateX(10%);
-  padding: 10px;
+  padding: $nav-padding;
 
   ul {
     margin: 0;
@@ -78,43 +83,34 @@ body {
     display: flex;
     flex-direction: row;
   }
+
   li {
     opacity: 0;
     list-style: none;
-    &:nth-child(1) {
+
+    &:nth-child(n) {
       transform-origin: bottom;
-      animation: itop 300ms 300ms linear forwards;
-    }
-    &:nth-child(2) {
-      transform-origin: bottom;
-      animation: itop 300ms 400ms linear forwards;
-    }
-    &:nth-child(3) {
-      transform-origin: bottom;
-      animation: itop 300ms 500ms linear forwards;
-    }
-    &:nth-child(4) {
-      transform-origin: bottom;
-      animation: itop 300ms 600ms linear forwards;
+      animation: itop $animation-duration 300ms linear forwards;
+      animation-delay: calc(300ms * (n - 1));
     }
   }
+
   a {
-    transition: all 0.5s linear;
+    transition: color 0.5s linear, background 0.5s linear;
     text-decoration: none;
-    color: #eeff00;
+    color: $icons;
     font-size: 20px;
     width: 52px;
     height: 52px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 10px 0 0;
+    margin-right: 10px;
     border-radius: 15px;
 
     &:hover {
       color: $branco;
       background: $darkbg;
-      border-radius: 15px;
     }
   }
 }
@@ -125,17 +121,17 @@ body {
   transform: translateX(0);
 }
 
-#toggle:checked ~ .button:before {
-  transform: rotate(90deg);
-}
-
-#toggle:checked ~ .button:after {
-  transform: rotate(0deg);
-}
-
 #toggle:checked ~ .button {
   width: 70px;
-  transition: all 0.1s linear;
+  transition: width 0.1s linear;
+
+  &:before {
+    transform: rotate(90deg);
+  }
+
+  &:after {
+    transform: rotate(0deg);
+  }
 }
 
 @media (max-width: 640px) {
