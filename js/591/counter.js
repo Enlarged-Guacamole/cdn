@@ -63,9 +63,9 @@
       speed: 1000, // how long it should take to count between the target numbers
       refreshInterval: 100, // how often the element should be updated
       decimals: 0, // the number of decimal places to show
-      formatter: formatter, // handler for formatting the value before rendering
-      onUpdate: null, // callback method for every time the element is updated
-      onComplete: null // callback method for when the element finishes updating
+      formatter: formatter,
+      onUpdate: null,
+      onComplete: null
     };
   
     function formatter(value, settings) {
@@ -74,7 +74,6 @@
   })(jQuery);
   
   jQuery(function ($) {
-    // custom formatting example
     $(".count-number").data("countToOptions", {
       formatter: function (value, options) {
         return value
@@ -82,8 +81,6 @@
           .replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
       }
     });
-  
-    // start all the timers
     $(".timer").each(count);
   
     function count(options) {
