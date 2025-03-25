@@ -1,0 +1,48 @@
+name: Convert Images to WebP
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Check for Image Changes
+        id: check_changes
+        uses: tj-actions/changed-files@v31
+        with:
+          files: |
+            images/*
+
+      - name: Install WebP Tools
+        if: steps.check_changes.outputs.any_changed == 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y webp
+
+      - name: Convert Images to WebP
+        if: steps.check_changes.outputs.any_changed == 'true'
+        run: |
+          for img in images/**/*.{jpg,jpeg,png}; do
+            cwebp -q 80 "$img" -o "${img%.*}.webp"
+          done
+
+      - name: Commit and Push WebP Images
+        if: steps.check_changes.outputs.any_changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add images/*
+          git commit -m "Convert images to WebP format"
+          git push
