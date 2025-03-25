@@ -40,6 +40,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add min/*
+          git add min/js/*
+          git add min/css/*
           git commit -m "Minify code" || echo "No changes to commit"
           git push
