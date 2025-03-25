@@ -1,0 +1,25 @@
+name: Count Lines and Notify Discord
+
+on:
+  push:
+    branches:
+      - main  # Change this to your default branch if necessary
+
+jobs:
+  count_lines:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Count lines of code
+        id: count_lines
+        run: |
+          # Count lines in all files (excluding certain directories and files)
+          line_count=$(find . -type f -not -path '*/\.*' -exec cat {} + | wc -l)
+          echo "line_count=$line_count" >> $GITHUB_ENV
+
+      - name: Send message to Discord
+        run: |
+          curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"The repository has ${{ env.line_count }} lines of code.\"}" https://discord.com/api/webhooks/1353942634057564160/hXSIEcj37UuXadLVl4AQJB_F01IBOpy_30tviRLJtk0cKHPo82NVLf9vGQ4-6zFjvO7M
