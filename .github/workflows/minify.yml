@@ -28,9 +28,6 @@ jobs:
         run: |
           npm install terser clean-css-cli -g  # Install minification tools
 
-      - name: Create min directory
-        run: mkdir -p min
-
       - name: Minify JavaScript
         run: |
           find . -name '*.js' -exec terser {} --compress --mangle --output /min/{} \;  # Minify all JS files in subdirectories
