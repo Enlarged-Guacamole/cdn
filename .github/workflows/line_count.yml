@@ -22,4 +22,4 @@ jobs:
 
       - name: Send message to Discord
         run: |
-          curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"The repository has ${{ env.line_count }} lines of code.\"}" https://discord.com/api/webhooks/1353942634057564160/hXSIEcj37UuXadLVl4AQJB_F01IBOpy_30tviRLJtk0cKHPo82NVLf9vGQ4-6zFjvO7M
+          curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"The Enlarged-Guacamole/cdn repository has ${{ env.line_count }} lines of code.\"}" https://discord.com/api/webhooks/1353942634057564160/hXSIEcj37UuXadLVl4AQJB_F01IBOpy_30tviRLJtk0cKHPo82NVLf9vGQ4-6zFjvO7M
