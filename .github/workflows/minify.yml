@@ -30,16 +30,16 @@ jobs:
 
       - name: Minify JavaScript
         run: |
-          find . -name '*.js' -exec terser {} --compress --mangle --output /min/{} \;  # Minify all JS files in subdirectories
+          find . -name '*.js' -exec terser {} --compress --mangle --output min/{} \;  # Minify all JS files in subdirectories
 
       - name: Minify CSS
         run: |
-          find . -name '*.css' -exec clean-css -o /min/{} {} \;  # Minify all CSS files in subdirectories
+          find . -name '*.css' -exec clean-css -o min/{} {} \;  # Minify all CSS files in subdirectories
 
       - name: Commit minified files
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add /min/*
+          git add min/*
           git commit -m "Minify code" || echo "No changes to commit"
           git push
