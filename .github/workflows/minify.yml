@@ -1,0 +1,45 @@
+name: Minify Code
+
+on:
+  push:
+    branches:
+      - main  # Change this to your default branch if it's not 'main'
+  pull_request:
+    branches:
+      - main  # Change this to your default branch if it's not 'main'
+
+jobs:
+  minify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: |
+          npm install terser clean-css-cli -g  # Install minification tools
+
+      - name: Create min directory
+        run: mkdir -p min
+
+      - name: Minify JavaScript
+        run: |
+          find . -name '*.js' -exec terser {} --compress --mangle --output min/{} \;  # Minify all JS files in subdirectories
+
+      - name: Minify CSS
+        run: |
+          find . -name '*.css' -exec clean-css -o min/{} {} \;  # Minify all CSS files in subdirectories
+
+      - name: Commit minified files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add min/
+          git commit -m "Minify code" || echo "No changes to commit"
+          git push
