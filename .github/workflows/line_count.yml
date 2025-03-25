@@ -3,7 +3,7 @@ name: Count Lines and Notify Discord
 on:
   push:
     branches:
-      - main  # Change this to your default branch if necessary
+      - master
 
 jobs:
   count_lines:
