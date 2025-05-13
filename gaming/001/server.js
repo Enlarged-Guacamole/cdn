@@ -1,7 +1,5 @@
         const serverIPs = [
-            "142.4.219.211:2061",
-            "192.99.34.30:2226",
-            "kmg.scalacube.vip",
+            "ch.kyle-hosting.xyz:25597",
         ];
 
         async function fetchServerStatus(serverIp) {
